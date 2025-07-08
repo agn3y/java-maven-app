@@ -3,12 +3,17 @@
 
 pipeline {
     agent any
+
+    tools {
+        maven 'maven-latest'   // <-- This line tells Jenkins to use Maven tool named 'maven-latest'
+    }
+
     stages {
         stage("build jar") {
             steps {
                 script {
                     echo "building jar"
-                    buildJar()
+                    buildJar()  // Your shared library function
                 }
             }
         }
@@ -32,3 +37,4 @@ pipeline {
         }
     }
 }
+
