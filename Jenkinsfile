@@ -1,5 +1,6 @@
 #!/usr/bin/env groovy
 @Library('Jenkins-shared-library')
+load 'script.groovy' // not sandboxed
 
 def gv
 
