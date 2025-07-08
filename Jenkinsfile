@@ -1,11 +1,13 @@
 #!/usr/bin/env groovy
-@Library('Jenkins-shared-library') _
-
 pipeline {
     agent any
 
     tools {
-        maven 'maven-latest'   // <-- This line tells Jenkins to use Maven tool named 'maven-latest'
+        maven 'maven-latest'
+    }
+
+    environment {
+        IMAGE_NAME = "agneypatel/test-repoo:1.7"
     }
 
     stages {
@@ -13,7 +15,7 @@ pipeline {
             steps {
                 script {
                     echo "building jar"
-                    buildJar()  // Your shared library function
+                    sh 'mvn clean package'
                 }
             }
         }
@@ -21,8 +23,8 @@ pipeline {
         stage("build image") {
             steps {
                 script {
-                    echo "building image"
-                    buildImage()
+                    echo "building the docker image..."
+                    sh "docker build -t ${env.IMAGE_NAME} ."
                 }
             }
         }
@@ -30,8 +32,8 @@ pipeline {
         stage("deploy") {
             steps {
                 script {
-                    echo "deploying"
-                    deployApp()
+                    echo "deploying app"
+                    // Add your deploy logic here or call shell script
                 }
             }
         }
